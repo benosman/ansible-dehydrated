@@ -17,6 +17,8 @@ dehydrated_key_algo: rsa
 dehydrated_keysize: 4096
 dehydrated_ca: "https://acme-v02.api.letsencrypt.org/directory"
 dehydrated_cronjob: true
+dehydrated_cronjob_cmd: "dehydrated -c"
+dehydrated_cronjob_suffix: ""
 dehydrated_use_lexicon: "{{ dehydrated_challengetype == 'dns-01' }}"
 dehydrated_run_on_changes: true
 dehydrated_systemd_timer: false
