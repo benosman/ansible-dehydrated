@@ -5,15 +5,19 @@ set -e
 set -u
 set -o pipefail
 
+{% for key, value in dehydrated_deploy_exports.items() %}
+export {{ key }}="{{ value }}"
+{% endfor %}
+
 deploy_cert() {
     local DOMAIN="${1}" KEYFILE="${2}" CERTFILE="${3}" FULLCHAINFILE="${4}" CHAINFILE="${5}" TIMESTAMP="${6}"
 
 {% if dehydrated_deploycert is string %}
-    {{ dehydrated_deploycert }}
+{{ dehydrated_deploycert }}
 {% else %}
 {% for domain, script in dehydrated_deploycert.items() %}
     if [[ "${DOMAIN}" = "{{ domain }}" ]]; then
-        {{ script }}
+    {{ script }}
     fi
 {% endfor %}
 {% endif %}

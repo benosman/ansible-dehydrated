@@ -1,16 +1,15 @@
 ---
-- name: Install dehydrated dependencies
-  apt: name={{ dehydrated_dependencies }}
 
-- name: Checkout dehydrated from github
-  git:
-    repo: "{{ dehydrated_repo_url }}"
-    update: "{{ dehydrated_update }}"
-    dest: "{{ dehydrated_install_root }}"
-    version: "{{ dehydrated_version }}"
+- include_tasks: install.yml
+  when: dehydrated_install | bool
 
-- name: Create /etc/dehydrated
-  file: dest=/etc/dehydrated state=directory owner=root group=root mode=0700
+- name: Ensure base directory exists
+  file:
+    dest: "{{ dehydrated_basedir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Create wellknown challenge directory
   file:
@@ -44,8 +43,7 @@
 
 - name: Include dns-01-lexicon.yml
   include_tasks: dns-01-lexicon.yml
-  when:
-    - dehydrated_use_lexicon
+  when: dehydrated_use_lexicon | bool
 
 - name: Install cronjob
   cron:
@@ -55,7 +53,7 @@
     user: root
     job: "{{ dehydrated_install_root }}/dehydrated -c"
     cron_file: dehydrated
-    state: "{{ 'present' if dehydrated_cronjob else 'absent' }}"
+    state: "{{ 'present' if dehydrated_cronjob | bool else 'absent' }}"
 
 - import_tasks: systemd.yml
 

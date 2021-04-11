@@ -1,0 +1,7 @@
+---
+
+- name: Install dehydrated dependencies
+  apt: name={{ dehydrated_dependencies }}
+
+- name: Install dehydrated packages
+  apt: name={{ dehydrated_packages }}

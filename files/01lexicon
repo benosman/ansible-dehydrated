@@ -6,7 +6,7 @@ set -u
 set -o pipefail
 
 export PROVIDER=${PROVIDER:-"cloudflare"}
-LEXICON=/usr/local/bin/lexicon
+LEXICON=lexicon
 
 function deploy_challenge {
     local DOMAIN="${1}" TOKEN_FILENAME="${2}" TOKEN_VALUE="${3}"

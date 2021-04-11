@@ -1,4 +1,6 @@
 #jinja2: trim_blocks: True, lstrip_blocks: True
+CONFIG_D=/etc/dehydrated/conf.d
+BASEDIR={{ dehydrated_basedir }}
 CA="{{ dehydrated_ca }}"
 CHALLENGETYPE="{{ dehydrated_challengetype }}"
 CONTACT_EMAIL="{{ dehydrated_contactemail | mandatory }}"
@@ -7,6 +9,7 @@ KEYSIZE={{ dehydrated_keysize }}
 {% if dehydrated_wellknown is defined %}
 WELLKNOWN={{ dehydrated_wellknown }}
 {% endif %}
+DOMAINS_TXT="/etc/dehydrated/domains.txt"
 HOOK=/etc/dehydrated/run-hooks.pl
 {% if dehydrated_challengetype == "dns-01" %}
 {% for k, v in dehydrated_lexicon_dns.items() %}

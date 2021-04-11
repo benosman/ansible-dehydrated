@@ -8,7 +8,7 @@
   loop:
     - dehydrated.service
     - dehydrated.timer
-  when: dehydrated_systemd_timer
+  when: dehydrated_systemd_timer | bool
   notify: Reload systemd
 
 - name: Remove system service files
@@ -18,7 +18,7 @@
   loop:
     - dehydrated.service
     - dehydrated.timer
-  when: not dehydrated_systemd_timer
+  when: not dehydrated_systemd_timer | bool
   notify: Remove timer
 
 - name: Activate systemd timer
@@ -27,4 +27,4 @@
     name: dehydrated.timer
     enabled: yes
     state: started
-  when: dehydrated_systemd_timer
+  when: dehydrated_systemd_timer | bool
